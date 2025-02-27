@@ -8,6 +8,23 @@ import (
 	"strings"
 )
 
+var clicommandMap = make(map[string]cliCommand)
+
+type cliCommand struct {
+	name        string
+	description string
+	callback    func() error
+}
+
+func init(){
+  clicommandMap["exit"] = cliCommand{
+    name: "exit",
+    description: "Exit the Pokedex",
+    callback: commandExit,
+  }
+}
+
+
 
 func cleanInput(text string) []string{
 	output := strings.ToLower(text)
@@ -24,11 +41,17 @@ func startRepl(){
    if scanner.Scan(){
     user_command := cleanInput(scanner.Text())
     if len(user_command) == 0 {continue}
-    fmt.Printf("Your command was: %s\n", user_command[0])
+    
    }
    err := scanner.Err(); if err != nil{
     log.Println(fmt.Errorf("scanner error: %w", err))
     break scannerLoop
    }
  }
+}
+
+func commandExit() error{
+  fmt.Println("Closing the Pokedex... Goodbye!")
+  os.Exit(0)
+  return nil
 }
