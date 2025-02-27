@@ -12,15 +12,14 @@ func (cc *CommandConfig) commandExit() error{
   }
   
   func (cc CommandConfig) helpCommand() error {
-	helpMessage := `Welcome to the Pokedex!
-  Usage:
-  
-  `
+	fmt.Println("Welcome to the Pokedex!")
+	fmt.Println("Usage:")
+    fmt.Println()
 	for _, cmd := range GetCommands() {
 	  command := cmd.Name
 	  desc := cmd.Description
-	  helpMessage += fmt.Sprintf("%s: %s\n", command, desc)
+	  fmt.Printf("%s: %s\n", command, desc)
 	}
-	fmt.Println(helpMessage)
+	fmt.Println("")
 	return nil
   }
