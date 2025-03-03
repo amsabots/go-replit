@@ -19,7 +19,7 @@ func cleanInput(text string) []string{
 }
 
 
-func startRepl(){
+func startRepl(cfg *commands.CommandConfig){
 	scanner := bufio.NewScanner(os.Stdin)
     scannerLoop:
  for {
@@ -34,7 +34,7 @@ func startRepl(){
       fmt.Println("Unknown command")
       continue
     }
-    err := callAction.Callback()
+    err := callAction.Callback(cfg)
     if err != nil {
       log.Println(fmt.Errorf("call Action failed: %w", err))
       continue

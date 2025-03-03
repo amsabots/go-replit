@@ -12,38 +12,37 @@ type CliCommand struct {
 	Callback    ReplCallBakFunc
 }
 
-type ReplCallBakFunc func() error
+type ReplCallBakFunc func(cc *CommandConfig) error
 
 
 func GetCommands() map[string]CliCommand{
-  commands := NewCommandConfig()
   var cliCommandMap = make(map[string]CliCommand)
 
   // Exit
   cliCommandMap["exit"] = CliCommand{
     Name: "exit",
     Description: "Exit the Pokedex",
-    Callback: commands.commandExit,
+    Callback: commandExit,
   }
 // Help
   cliCommandMap["help"] = CliCommand{
     Name: "help",
     Description: "Displays a help message",
-    Callback: commands.helpCommand,
+    Callback: helpCommand,
   }
 
   // Map
   cliCommandMap["map"] = CliCommand{
     Name: "map",
     Description: "Displays map info",
-    Callback: commands.pokeAPI,
+    Callback: pokeAPI,
   }
 
   // Map
   cliCommandMap["mapb"] = CliCommand{
     Name: "mapb",
     Description: "Displays previous map info",
-    Callback: commands.pokeAPIBack,
+    Callback: pokeAPIBack,
   }
 
   return cliCommandMap

@@ -21,7 +21,7 @@ type LocationInfo struct {
 	Url string `json:"url"`
 }
 
-func (cc *CommandConfig) pokeAPI() error{
+func pokeAPI(cc *CommandConfig) error{
 
 var mapData MapResponse
 res, err := http.Get(locationURL)
@@ -44,7 +44,7 @@ return nil
 }
 
 
-func (cc *CommandConfig) pokeAPIBack() error{
+func  pokeAPIBack(cc *CommandConfig) error{
     if cc.Previous == ""{
 		fmt.Println("you're on the first page")
 		return nil
