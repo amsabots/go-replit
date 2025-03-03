@@ -2,8 +2,8 @@ package commands
 
 
 type CommandConfig struct {
-  Next int
-  Previous int
+  Next string
+  Previous string
 }
 
 type CliCommand struct {

@@ -33,6 +33,10 @@ defer res.Body.Close()
 
 err = json.NewDecoder(res.Body).Decode(&mapData)
 if err != nil {return err}
+
+cc.Next = mapData.Next
+cc.Previous = mapData.Previous
+
 for _, value := range mapData.Results {
 fmt.Println(value.Name)
 }
@@ -41,9 +45,12 @@ return nil
 
 
 func (cc *CommandConfig) pokeAPIBack() error{
-
+    if cc.Previous == ""{
+		fmt.Println("you're on the first page")
+		return nil
+	}
 	var mapData MapResponse
-	res, err := http.Get(locationURL)
+	res, err := http.Get(cc.Previous)
 	if res.StatusCode > 299 {
 		return fmt.Errorf("response failed with status code: %d", res.StatusCode)
 	}
