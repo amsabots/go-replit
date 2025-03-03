@@ -1,4 +1,4 @@
-package http
+package httpclient
 
 import (
 	"net/http"
@@ -7,12 +7,12 @@ import (
 
 
 type HTTPClient struct {
-	httpClient http.Client
+	HTTP *http.Client
 }
 
 func NewClient(timeout time.Duration) HTTPClient{
 	return HTTPClient{
-		httpClient: http.Client{
+		HTTP: &http.Client{
 			Timeout: timeout,
 		},
 	}

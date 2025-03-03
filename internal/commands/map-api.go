@@ -24,14 +24,19 @@ type LocationInfo struct {
 func pokeAPI(cc *CommandConfig) error{
 
 var mapData MapResponse
-res, err := http.Get(locationURL)
-if res.StatusCode > 299 {
-	return fmt.Errorf("response failed with status code: %d", res.StatusCode)
-}
-if err != nil {return err}
-defer res.Body.Close()
+ 
+req, err := http.NewRequest("GET", locationURL, nil)
+if err != nil {return fmt.Errorf("error creating request: %w", err)}
 
-err = json.NewDecoder(res.Body).Decode(&mapData)
+resp, err := cc.HtttpClient.HTTP.Do(req)
+if err != nil {return fmt.Errorf("error making request: %w", err)}
+defer resp.Body.Close()
+
+if resp.StatusCode > 299 {
+	return fmt.Errorf("response failed with status code: %d", resp.StatusCode)
+}
+
+err = json.NewDecoder(resp.Body).Decode(&mapData)
 if err != nil {return err}
 
 cc.Next = mapData.Next
