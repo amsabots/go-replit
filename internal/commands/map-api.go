@@ -55,14 +55,17 @@ func  pokeAPIBack(cc *CommandConfig) error{
 		return nil
 	}
 	var mapData MapResponse
-	res, err := http.Get(cc.Previous)
-	if res.StatusCode > 299 {
-		return fmt.Errorf("response failed with status code: %d", res.StatusCode)
-	}
+     
+	req, err := http.NewRequest("GET", locationURL, nil)
 	if err != nil {return err}
-	defer res.Body.Close()
-	
-	err = json.NewDecoder(res.Body).Decode(&mapData)
+
+	resp, err := cc.HtttpClient.HTTP.Do(req)
+	if err != nil {return err}
+	defer resp.Body.Close()
+	if resp.StatusCode > 299 {
+		return fmt.Errorf("response failed with status code: %d", resp.StatusCode)
+	}
+	err = json.NewDecoder(resp.Body).Decode(&mapData)
 	if err != nil {return err}
 	for _, value := range mapData.Results {
 	fmt.Println(value.Name)
