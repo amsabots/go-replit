@@ -19,14 +19,24 @@ type cacheEntry struct {
 
 func NewCache(dur time.Duration) *Cache{
 	cacheMap := make(map[string]cacheEntry)
-	return &Cache{
+	c :=  &Cache{
        cache: cacheMap,
 	   mu: &sync.Mutex{},
 
 	}
+	go c.reapLoop(dur)
+	return c
 }
 
-func (c *Cache) Add(key string, value []byte)
+func (c *Cache) Add(key string, value []byte){
+	c.mu.Lock()
+	defer c.mu.Unlock()
+
+	c.cache[key] = cacheEntry{
+		createdAt: time.Now(),
+		val: value,
+	}
+}
 
 func (c *Cache) Get(key string) ([]byte, bool){
 	c.mu.Lock()
