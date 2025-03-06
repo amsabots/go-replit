@@ -1,6 +1,9 @@
 package main
 
+import "github.com/amsabots/go-replit.git/internal/commands"
+
 
 func main(){
-    startRepl()
+    cfg := commands.NewCommandConfig()
+     startRepl(cfg)
 }
